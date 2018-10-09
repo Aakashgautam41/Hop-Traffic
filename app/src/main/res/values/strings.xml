@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Hop Traffic</string>
+    <string name="describe_your_issue">Describe your issue</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="submit">Submit</string>
+</resources>
