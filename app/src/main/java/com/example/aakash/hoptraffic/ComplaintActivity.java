@@ -36,6 +36,7 @@ public class ComplaintActivity extends AppCompatActivity {
     Button takePhoto;
     Button submit;
     private Uri filePath;
+    static String imageId = UUID.randomUUID().toString();
 
     //Request code for getting image
     private static final int Gallary = 10;
@@ -115,7 +116,7 @@ public class ComplaintActivity extends AppCompatActivity {
 
                     //Uploading image to firebase
 
-                    final StorageReference fileName = mStorageRef.child("Images/"+ UUID.randomUUID().toString());
+                    final StorageReference fileName = mStorageRef.child("Images/"+ imageId);
                     fileName.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
