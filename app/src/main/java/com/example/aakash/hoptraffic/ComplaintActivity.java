@@ -83,8 +83,8 @@ public class ComplaintActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userIssue = describe.getText().toString();
-                String userLocation = location.getText().toString();
+                String userIssue = "\""+describe.getText().toString()+"\"";
+                String userLocation = "\""+location.getText().toString()+"\"";
 
                 boolean cancel = false;
                 View focusView = null;

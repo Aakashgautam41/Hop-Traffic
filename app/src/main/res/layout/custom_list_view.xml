@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="5dp">
 
 
     <ImageView
@@ -26,25 +27,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="72dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:text="Traffic because of illegal parking"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        tools:text="Traffic because of illegal parking" />
+        android:text="Traffic due to Illegal Parking"
+        app:layout_constraintStart_toEndOf="@+id/issue"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <TextView
         android:id="@+id/textView_location"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="135dp"
-        android:layout_marginTop="9dp"
-        android:text="Kalka-pinjore highway"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_description"
-        tools:text="Kalka-pinjore highway" />
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:text="Shop no 10, Main market, Baddi"
+        app:layout_constraintStart_toEndOf="@+id/location"
+        app:layout_constraintTop_toBottomOf="@+id/textView_description" />
 
     <TextView
         android:id="@+id/issue"
