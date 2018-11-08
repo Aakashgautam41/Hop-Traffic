@@ -7,7 +7,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,8 +22,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -83,21 +82,21 @@ public class ComplaintActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userIssue = "\""+describe.getText().toString()+"\"";
-                String userLocation = "\""+location.getText().toString()+"\"";
+               String userIssue = "\""+describe.getText().toString()+"\"";
+               String userLocation = "\""+location.getText().toString()+"\"";
 
                 boolean cancel = false;
                 View focusView = null;
 
                 //Description field validation
-                if(TextUtils.isEmpty(userIssue)){
+                if(userIssue.length()<3){
                     describe.setError("Required field is empty");
                     focusView = describe;
                     cancel = true;
                 }
 
                 //Location field validation
-                if (TextUtils.isEmpty(userLocation)){
+                if ( userLocation.length()<3){
                     location.setError("Required field is empty");
                     focusView = location;
                     cancel = true;
@@ -110,6 +109,7 @@ public class ComplaintActivity extends AppCompatActivity {
                     HashMap<String,String> userComplaints = new HashMap<>();
                     userComplaints.put("Issue",userIssue);
                     userComplaints.put("Location",userLocation);
+                    userComplaints.put("ImageId",imageId);
                     myRef.push().setValue(userComplaints);
 
                     Toast.makeText(ComplaintActivity.this, "Your Complaint has been successfully registered", Toast.LENGTH_SHORT).show();
@@ -121,8 +121,9 @@ public class ComplaintActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             // Get a URL to the uploaded content
-//                            Uri downloadUrl = taskSnapshot.getDownloadUrl();
+//                             Uri downloadUrl = taskSnapshot.getDownloadUrl();
                                 Toast.makeText(ComplaintActivity.this,"Upload Successful", Toast.LENGTH_SHORT).show();
+
                         }
                     })
                             .addOnFailureListener(new OnFailureListener() {
@@ -144,7 +145,7 @@ public class ComplaintActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Gallary){
+        if (requestCode == Gallary) {
 //            Bitmap bitmap = (Bitmap)data.getExtras().get("data");
 //            image.setImageBitmap(bitmap);
 

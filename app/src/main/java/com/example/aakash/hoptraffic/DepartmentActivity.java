@@ -42,6 +42,7 @@ public class DepartmentActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private DatabaseReference mDatabase;
     ListView listView;
+    static String downloadId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class DepartmentActivity extends AppCompatActivity {
         //Storage reference
         mStorageRef = FirebaseStorage.getInstance().getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
         //Getting listview from ui
         listView = findViewById(R.id.listview);
 
@@ -120,18 +122,20 @@ public class DepartmentActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.custom_list_view,null);
-            ImageView imageView = view.findViewById(R.id.imageView);
+            final ImageView imageView = view.findViewById(R.id.imageView);
             TextView description = view.findViewById(R.id.textView_description);
             TextView location= view.findViewById(R.id.textView_location);
 
 
+
+
             //Setting values in listview
-//            String value = Objects.requireNonNull(mSnapShot.get(i).getValue()).toString();
-//            Log.i("JSON : ",value);
+            String value = Objects.requireNonNull(mSnapShot.get(i).getValue()).toString();
+            Log.i("JSON : ",value);
 
             try {
 
-                JSONObject jsonObject = new JSONObject(mSnapShot.get(i).getValue().toString());
+                JSONObject jsonObject = new JSONObject(value);
                 String issue = (String) jsonObject.get("Issue");
                 description.setText(issue);
                 Log.i("Description :: ",issue);
@@ -139,6 +143,29 @@ public class DepartmentActivity extends AppCompatActivity {
                 String loc = jsonObject.getString("Location");
                 location.setText(loc);
                 Log.i("Location :: ", loc);
+
+                downloadId = jsonObject.getString("ImageId");
+                Log.i("Download Id :: ", downloadId.toString());
+
+                //Setting image
+                final long ONE_MEGABYTE = 2048 * 2048;
+
+                mStorageRef.child("Images/"+ downloadId).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(byte[] bytes) {
+//                    Toast.makeText(DepartmentActivity.this,"Download Successful", Toast.LENGTH_SHORT).show();
+                        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        imageView.setImageBitmap(Bitmap.createScaledBitmap(bmp, imageView.getWidth(), imageView.getHeight(), false));
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(DepartmentActivity.this,"Download failed", Toast.LENGTH_SHORT).show();
+                        Log.i("Image Error ::",e.toString());
+                    }
+                });
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
